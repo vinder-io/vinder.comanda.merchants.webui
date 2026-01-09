@@ -1,4 +1,6 @@
-﻿namespace Vinder.Comanda.Merchants.WebUI.Http.Clients;
+﻿#pragma warning disable S1125 // we prefer explicit boolean comparisons for readability
+
+namespace Vinder.Comanda.Merchants.WebUI.Http.Clients;
 
 public sealed class IdentityClient(HttpClient httpClient) : IIdentityClient
 {
