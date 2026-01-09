@@ -1,6 +1,6 @@
 ﻿namespace Vinder.Comanda.Merchants.WebUI.Constants;
 
-public sealed class AuthenticationDefaults
+public static class AuthenticationDefaults
 {
     public const string Type = "Jwt";
     public const string Scheme = "Bearer";
