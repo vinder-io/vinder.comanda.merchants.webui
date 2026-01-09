@@ -13,7 +13,7 @@
 @code {
     private async Task OpenWhatsApp()
     {
-        var message = "Olá, preciso de suporte com o comanda";
+        var message = @"Olá, preciso de suporte com o comanda";
         var encodedMessage = Uri.EscapeDataString(message);
         var whatsappUrl = $"https://wa.me/5521988547794?text={encodedMessage}";
 
