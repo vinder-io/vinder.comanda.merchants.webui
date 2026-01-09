@@ -1,22 +1,45 @@
-<MudDrawer @bind-Open="@IsOpen" Elevation="2" Variant="@DrawerVariant.Temporary">
-    <MudNavMenu Style="margin-top: 20px;">
-        <MudNavLink Href="/pedidos"
-                    Icon="@Icons.Material.Outlined.ReceiptLong"
-                    IconColor="Color.Inherit">
-            @SidebarLabels.Orders
-        </MudNavLink>
+<MudDrawer Open="true" Elevation="0" Variant="@DrawerVariant.Persistent" ClipMode="DrawerClipMode.Never"
+    Style="border-right: none;">
+    <MudNavMenu Class="pa-3" Style="gap: 8px;">
+        <MudPaper Elevation="0" Class="mb-2"
+            Style="border-radius: 8px; border-left: 3px solid var(--mud-palette-primary); overflow: hidden;">
+            <MudNavLink Href="/" Icon="@Icons.Material.Outlined.Dashboard" IconColor="Color.Primary"
+                Style="padding: 10px 16px; font-size: 0.875rem;">
+                Dashboard
+            </MudNavLink>
+        </MudPaper>
 
-        <MudNavLink Href="/pagamentos"
-                    Icon="@Icons.Material.Outlined.Payment"
-                    IconColor="Color.Inherit">
-            @SidebarLabels.Payments
-        </MudNavLink>
+        <MudPaper Elevation="0" Class="mb-2"
+            Style="border-radius: 8px; border-left: 3px solid var(--mud-palette-info); overflow: hidden;">
+            <MudNavLink Href="/pedidos" Icon="@Icons.Material.Outlined.ReceiptLong" IconColor="Color.Info"
+                Style="padding: 10px 16px; font-size: 0.875rem;">
+                @SidebarLabels.Orders
+            </MudNavLink>
+        </MudPaper>
 
-        <MudNavLink Href="/produtos"
-                    Icon="@Icons.Material.Outlined.Inventory2"
-                    IconColor="Color.Inherit">
-            @SidebarLabels.Products
-        </MudNavLink>
+        <MudPaper Elevation="0" Class="mb-2"
+            Style="border-radius: 8px; border-left: 3px solid var(--mud-palette-success); overflow: hidden;">
+            <MudNavLink Href="/pagamentos" Icon="@Icons.Material.Outlined.Payment" IconColor="Color.Success"
+                Style="padding: 10px 16px; font-size: 0.875rem;">
+                @SidebarLabels.Payments
+            </MudNavLink>
+        </MudPaper>
+
+        <MudPaper Elevation="0" Class="mb-2"
+            Style="border-radius: 8px; border-left: 3px solid var(--mud-palette-secondary); overflow: hidden;">
+            <MudNavLink Href="/produtos" Icon="@Icons.Material.Outlined.Inventory2" IconColor="Color.Secondary"
+                Style="padding: 10px 16px; font-size: 0.875rem;">
+                @SidebarLabels.Products
+            </MudNavLink>
+        </MudPaper>
+
+        <MudPaper Elevation="0" Class="mb-2"
+            Style="border-radius: 8px; border-left: 3px solid var(--mud-palette-warning); overflow: hidden;">
+            <MudNavLink Href="/configuracoes" Icon="@Icons.Material.Outlined.Settings" IconColor="Color.Warning"
+                Style="padding: 10px 16px; font-size: 0.875rem;">
+                @SidebarLabels.Settings
+            </MudNavLink>
+        </MudPaper>
     </MudNavMenu>
 </MudDrawer>
 
