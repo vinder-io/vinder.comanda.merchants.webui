@@ -1,243 +1,156 @@
-<div class="kitchen-board">
-    <MudGrid Spacing="3">
-        <MudItem xs="12" sm="6" md="3">
-            <MudPaper Elevation="0" Class="pa-4" Style="border-radius: 12px; border-left: 4px solid var(--mud-palette-info); min-height: 600px;">
-                <div class="d-flex align-center justify-space-between mb-4">
-                    <div class="d-flex align-center">
-                        <MudAvatar Color="Color.Info" Variant="Variant.Filled" Size="Size.Small" Style="background: rgba(var(--mud-palette-info-rgb), 0.1);">
-                            <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Color="Color.Info" Size="Size.Small" />
-                        </MudAvatar>
-                        <MudText Typo="Typo.subtitle1" Class="ml-2" Style="font-weight: 700;">
-                            Confirmado
+<MudDropContainer T="KitchenOrder" Items="_allOrders" ItemsSelector="@((item, dropzone) => item.Status == dropzone)"
+    ItemDropped="OnItemDropped" Class="kitchen-board">
+    <ChildContent>
+        <MudGrid Spacing="3">
+            <MudItem xs="12" sm="6" md="3">
+                <MudPaper Elevation="0" Class="pa-4"
+                    Style="border-radius: 12px; border-left: 4px solid var(--mud-palette-info); min-height: 600px;">
+                    <div class="d-flex align-center justify-space-between mb-4">
+                        <div class="d-flex align-center">
+                            <MudAvatar Color="Color.Info" Variant="Variant.Filled" Size="Size.Small"
+                                Style="background: rgba(var(--mud-palette-info-rgb), 0.1);">
+                                <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Color="Color.Info"
+                                    Size="Size.Small" />
+                            </MudAvatar>
+                            <MudText Typo="Typo.subtitle1" Class="ml-2" Style="font-weight: 700;">
+                                Confirmado
+                            </MudText>
+                        </div>
+                        <MudChip T="string" Size="Size.Small" Color="Color.Info" Variant="Variant.Outlined">
+                            @_allOrders.Count(x => x.Status == "Confirmed")
+                        </MudChip>
+                    </div>
+                    <MudDropZone T="KitchenOrder" Identifier="Confirmed" Class="d-flex flex-column"
+                        Style="gap: 8px; min-height: 400px;" />
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="12" sm="6" md="3">
+                <MudPaper Elevation="0" Class="pa-4"
+                    Style="border-radius: 12px; border-left: 4px solid var(--mud-palette-warning); min-height: 600px;">
+                    <div class="d-flex align-center justify-space-between mb-4">
+                        <div class="d-flex align-center">
+                            <MudAvatar Color="Color.Warning" Variant="Variant.Filled" Size="Size.Small"
+                                Style="background: rgba(var(--mud-palette-warning-rgb), 0.1);">
+                                <MudIcon Icon="@Icons.Material.Filled.Restaurant" Color="Color.Warning"
+                                    Size="Size.Small" />
+                            </MudAvatar>
+                            <MudText Typo="Typo.subtitle1" Class="ml-2" Style="font-weight: 700;">
+                                Em Preparação
+                            </MudText>
+                        </div>
+                        <MudChip T="string" Size="Size.Small" Color="Color.Warning" Variant="Variant.Outlined">
+                            @_allOrders.Count(x => x.Status == "InPreparation")
+                        </MudChip>
+                    </div>
+                    <MudDropZone T="KitchenOrder" Identifier="InPreparation" Class="d-flex flex-column"
+                        Style="gap: 8px; min-height: 400px;" />
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="12" sm="6" md="3">
+                <MudPaper Elevation="0" Class="pa-4"
+                    Style="border-radius: 12px; border-left: 4px solid var(--mud-palette-success); min-height: 600px;">
+                    <div class="d-flex align-center justify-space-between mb-4">
+                        <div class="d-flex align-center">
+                            <MudAvatar Color="Color.Success" Variant="Variant.Filled" Size="Size.Small"
+                                Style="background: rgba(var(--mud-palette-success-rgb), 0.1);">
+                                <MudIcon Icon="@Icons.Material.Filled.DoneAll" Color="Color.Success"
+                                    Size="Size.Small" />
+                            </MudAvatar>
+                            <MudText Typo="Typo.subtitle1" Class="ml-2" Style="font-weight: 700;">
+                                Pronto
+                            </MudText>
+                        </div>
+                        <MudChip T="string" Size="Size.Small" Color="Color.Success" Variant="Variant.Outlined">
+                            @_allOrders.Count(x => x.Status == "Ready")
+                        </MudChip>
+                    </div>
+                    <MudDropZone T="KitchenOrder" Identifier="Ready" Class="d-flex flex-column"
+                        Style="gap: 8px; min-height: 400px;" />
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="12" sm="6" md="3">
+                <MudPaper Elevation="0" Class="pa-4"
+                    Style="border-radius: 12px; border-left: 4px solid var(--mud-palette-primary); min-height: 600px;">
+                    <div class="d-flex align-center justify-space-between mb-4">
+                        <div class="d-flex align-center">
+                            <MudAvatar Color="Color.Primary" Variant="Variant.Filled" Size="Size.Small"
+                                Style="background: rgba(var(--mud-palette-primary-rgb), 0.1);">
+                                <MudIcon Icon="@Icons.Material.Filled.CheckCircleOutline" Color="Color.Primary"
+                                    Size="Size.Small" />
+                            </MudAvatar>
+                            <MudText Typo="Typo.subtitle1" Class="ml-2" Style="font-weight: 700;">
+                                Finalizado
+                            </MudText>
+                        </div>
+                        <MudChip T="string" Size="Size.Small" Color="Color.Primary" Variant="Variant.Outlined">
+                            @_allOrders.Count(x => x.Status == "Finalized")
+                        </MudChip>
+                    </div>
+                    <MudDropZone T="KitchenOrder" Identifier="Finalized" Class="d-flex flex-column"
+                        Style="gap: 8px; min-height: 400px;" />
+                </MudPaper>
+            </MudItem>
+        </MudGrid>
+    </ChildContent>
+    <ItemRenderer>
+        <MudPaper Elevation="0" Class="pa-3 mud-ripple"
+            Style="border-radius: 8px; border: 1px solid rgba(0,0,0,0.12); cursor: grab; position: relative; transition: all 0.2s ease;">
+            <div class="d-flex align-start">
+                <MudIcon Icon="@Icons.Material.Filled.DragIndicator" Size="Size.Small"
+                    Style="opacity: 0.4; cursor: grab; margin-right: 8px; margin-top: 2px; flex-shrink: 0;" />
+                <div style="flex: 1;">
+                    <div class="d-flex justify-space-between align-center mb-2">
+                        <MudText Typo="Typo.subtitle2" Style="font-weight: 700;">
+                            Pedido #@context.Id
+                        </MudText>
+                        <MudText Typo="Typo.caption" Style="opacity: 0.6;">
+                            @context.Time
                         </MudText>
                     </div>
-                    <MudChip T="string" Size="Size.Small" Color="Color.Info" Variant="Variant.Outlined">
-                        @_confirmedOrders.Count
-                    </MudChip>
-                </div>
-
-                <MudStack Spacing="2">
-                    @foreach (var order in _confirmedOrders)
-                    {
-                        <MudPaper Elevation="0" Class="pa-3" Style="border-radius: 8px; border: 1px solid rgba(0,0,0,0.12); cursor: pointer;">
-                            <div class="d-flex justify-space-between align-center mb-2">
-                                <MudText Typo="Typo.subtitle2" Style="font-weight: 700;">
-                                    Pedido #@order.Id
-                                </MudText>
-                                <MudText Typo="Typo.caption" Style="opacity: 0.6;">
-                                    @order.Time
-                                </MudText>
-                            </div>
-                            <MudText Typo="Typo.body2" Class="mb-2" Style="opacity: 0.8;">
-                                @order.Items
-                            </MudText>
-                            <MudText Typo="Typo.caption" Style="opacity: 0.6;">
-                                Mesa @order.Table
-                            </MudText>
-                            <MudDivider Class="my-2" />
-                            <MudButton Variant="Variant.Outlined" 
-                                      Color="Color.Warning" 
-                                      Size="Size.Small" 
-                                      FullWidth="true"
-                                      StartIcon="@Icons.Material.Filled.Restaurant"
-                                      Style="border-radius: 6px;"
-                                      OnClick="@(() => MoveToPreparation(order))">
-                                Iniciar Preparo
-                            </MudButton>
-                        </MudPaper>
-                    }
-                </MudStack>
-            </MudPaper>
-        </MudItem>
-
-        <MudItem xs="12" sm="6" md="3">
-            <MudPaper Elevation="0" Class="pa-4" Style="border-radius: 12px; border-left: 4px solid var(--mud-palette-warning); min-height: 600px;">
-                <div class="d-flex align-center justify-space-between mb-4">
-                    <div class="d-flex align-center">
-                        <MudAvatar Color="Color.Warning" Variant="Variant.Filled" Size="Size.Small" Style="background: rgba(var(--mud-palette-warning-rgb), 0.1);">
-                            <MudIcon Icon="@Icons.Material.Filled.Restaurant" Color="Color.Warning" Size="Size.Small" />
-                        </MudAvatar>
-                        <MudText Typo="Typo.subtitle1" Class="ml-2" Style="font-weight: 700;">
-                            Em Preparação
+                    <MudText Typo="Typo.body2" Class="mb-2" Style="opacity: 0.8;">
+                        @context.Items
+                    </MudText>
+                    <div class="d-flex justify-space-between align-center">
+                        <MudText Typo="Typo.caption" Style="opacity: 0.6;">
+                            Mesa @context.Table
                         </MudText>
+                        @if (context.Status == "Finalized")
+                        {
+                            <MudChip T="string" Size="Size.Small" Color="Color.Success" Variant="Variant.Outlined"
+                                Icon="@Icons.Material.Filled.Check">
+                                Entregue
+                            </MudChip>
+                        }
                     </div>
-                    <MudChip T="string" Size="Size.Small" Color="Color.Warning" Variant="Variant.Outlined">
-                        @_preparingOrders.Count
-                    </MudChip>
                 </div>
-
-                <MudStack Spacing="2">
-                    @foreach (var order in _preparingOrders)
-                    {
-                        <MudPaper Elevation="0" Class="pa-3" Style="border-radius: 8px; border: 1px solid rgba(0,0,0,0.12); cursor: pointer;">
-                            <div class="d-flex justify-space-between align-center mb-2">
-                                <MudText Typo="Typo.subtitle2" Style="font-weight: 700;">
-                                    Pedido #@order.Id
-                                </MudText>
-                                <MudText Typo="Typo.caption" Style="opacity: 0.6;">
-                                    @order.Time
-                                </MudText>
-                            </div>
-                            <MudText Typo="Typo.body2" Class="mb-2" Style="opacity: 0.8;">
-                                @order.Items
-                            </MudText>
-                            <MudText Typo="Typo.caption" Style="opacity: 0.6;">
-                                Mesa @order.Table
-                            </MudText>
-                            <MudDivider Class="my-2" />
-                            <MudButton Variant="Variant.Outlined" 
-                                      Color="Color.Success" 
-                                      Size="Size.Small" 
-                                      FullWidth="true"
-                                      StartIcon="@Icons.Material.Filled.DoneAll"
-                                      Style="border-radius: 6px;"
-                                      OnClick="@(() => MoveToReady(order))">
-                                Marcar como Pronto
-                            </MudButton>
-                        </MudPaper>
-                    }
-                </MudStack>
-            </MudPaper>
-        </MudItem>
-
-        <MudItem xs="12" sm="6" md="3">
-            <MudPaper Elevation="0" Class="pa-4" Style="border-radius: 12px; border-left: 4px solid var(--mud-palette-success); min-height: 600px;">
-                <div class="d-flex align-center justify-space-between mb-4">
-                    <div class="d-flex align-center">
-                        <MudAvatar Color="Color.Success" Variant="Variant.Filled" Size="Size.Small" Style="background: rgba(var(--mud-palette-success-rgb), 0.1);">
-                            <MudIcon Icon="@Icons.Material.Filled.DoneAll" Color="Color.Success" Size="Size.Small" />
-                        </MudAvatar>
-                        <MudText Typo="Typo.subtitle1" Class="ml-2" Style="font-weight: 700;">
-                            Pronto
-                        </MudText>
-                    </div>
-                    <MudChip T="string" Size="Size.Small" Color="Color.Success" Variant="Variant.Outlined">
-                        @_readyOrders.Count
-                    </MudChip>
-                </div>
-
-                <MudStack Spacing="2">
-                    @foreach (var order in _readyOrders)
-                    {
-                        <MudPaper Elevation="0" Class="pa-3" Style="border-radius: 8px; border: 1px solid rgba(0,0,0,0.12); cursor: pointer;">
-                            <div class="d-flex justify-space-between align-center mb-2">
-                                <MudText Typo="Typo.subtitle2" Style="font-weight: 700;">
-                                    Pedido #@order.Id
-                                </MudText>
-                                <MudText Typo="Typo.caption" Style="opacity: 0.6;">
-                                    @order.Time
-                                </MudText>
-                            </div>
-                            <MudText Typo="Typo.body2" Class="mb-2" Style="opacity: 0.8;">
-                                @order.Items
-                            </MudText>
-                            <MudText Typo="Typo.caption" Style="opacity: 0.6;">
-                                Mesa @order.Table
-                            </MudText>
-                            <MudDivider Class="my-2" />
-                            <MudButton Variant="Variant.Outlined" 
-                                      Color="Color.Primary" 
-                                      Size="Size.Small" 
-                                      FullWidth="true"
-                                      StartIcon="@Icons.Material.Filled.CheckCircleOutline"
-                                      Style="border-radius: 6px;"
-                                      OnClick="@(() => MoveToFinalized(order))">
-                                Finalizar Pedido
-                            </MudButton>
-                        </MudPaper>
-                    }
-                </MudStack>
-            </MudPaper>
-        </MudItem>
-
-        <MudItem xs="12" sm="6" md="3">
-            <MudPaper Elevation="0" Class="pa-4" Style="border-radius: 12px; border-left: 4px solid var(--mud-palette-primary); min-height: 600px;">
-                <div class="d-flex align-center justify-space-between mb-4">
-                    <div class="d-flex align-center">
-                        <MudAvatar Color="Color.Primary" Variant="Variant.Filled" Size="Size.Small" Style="background: rgba(var(--mud-palette-primary-rgb), 0.1);">
-                            <MudIcon Icon="@Icons.Material.Filled.CheckCircleOutline" Color="Color.Primary" Size="Size.Small" />
-                        </MudAvatar>
-                        <MudText Typo="Typo.subtitle1" Class="ml-2" Style="font-weight: 700;">
-                            Finalizado
-                        </MudText>
-                    </div>
-                    <MudChip T="string" Size="Size.Small" Color="Color.Primary" Variant="Variant.Outlined">
-                        @_finalizedOrders.Count
-                    </MudChip>
-                </div>
-
-                <MudStack Spacing="2">
-                    @foreach (var order in _finalizedOrders)
-                    {
-                        <MudPaper Elevation="0" Class="pa-3" Style="border-radius: 8px; border: 1px solid rgba(0,0,0,0.12); opacity: 0.7;">
-                            <div class="d-flex justify-space-between align-center mb-2">
-                                <MudText Typo="Typo.subtitle2" Style="font-weight: 700;">
-                                    Pedido #@order.Id
-                                </MudText>
-                                <MudText Typo="Typo.caption" Style="opacity: 0.6;">
-                                    @order.Time
-                                </MudText>
-                            </div>
-                            <MudText Typo="Typo.body2" Class="mb-2" Style="opacity: 0.8;">
-                                @order.Items
-                            </MudText>
-                            <MudText Typo="Typo.caption" Style="opacity: 0.6;">
-                                Mesa @order.Table
-                            </MudText>
-                            <div class="d-flex align-center mt-2">
-                                <MudIcon Icon="@Icons.Material.Filled.Check" Color="Color.Success" Size="Size.Small" Class="mr-1" />
-                                <MudText Typo="Typo.caption" Style="color: var(--mud-palette-success); font-weight: 600;">
-                                    Entregue
-                                </MudText>
-                            </div>
-                        </MudPaper>
-                    }
-                </MudStack>
-            </MudPaper>
-        </MudItem>
-    </MudGrid>
-</div>
+            </div>
+        </MudPaper>
+    </ItemRenderer>
+</MudDropContainer>
 
 @code {
-    private List<KitchenOrder> _confirmedOrders = new()
-    {
-        new KitchenOrder { Id = "001", Time = "10:15", Items = "2x Hambúrguer, 1x Batata Frita", Table = "5" },
-        new KitchenOrder { Id = "002", Time = "10:18", Items = "1x Pizza Margherita", Table = "12" },
-        new KitchenOrder { Id = "003", Time = "10:22", Items = "3x Refrigerante, 2x Pastel", Table = "7" }
-    };
+    private List<KitchenOrder> _allOrders = new()
+{
+new KitchenOrder { Id = "001", Time = "10:15", Items = "2x Hambúrguer, 1x Batata Frita", Table = "5", Status =
+"Confirmed" },
+new KitchenOrder { Id = "002", Time = "10:18", Items = "1x Pizza Margherita", Table = "12", Status = "Confirmed" },
+new KitchenOrder { Id = "003", Time = "10:22", Items = "3x Refrigerante, 2x Pastel", Table = "7", Status = "Confirmed" },
+new KitchenOrder { Id = "004", Time = "10:05", Items = "1x X-Bacon, 1x Suco", Table = "3", Status = "InPreparation" },
+new KitchenOrder { Id = "005", Time = "10:08", Items = "2x Porção de Fritas", Table = "9", Status = "InPreparation" },
+new KitchenOrder { Id = "006", Time = "09:55", Items = "1x Misto Quente, 1x Café", Table = "2", Status = "Ready" },
+new KitchenOrder { Id = "007", Time = "09:45", Items = "2x Açaí, 1x Tapioca", Table = "8", Status = "Finalized" }
+};
 
-    private List<KitchenOrder> _preparingOrders = new()
+    private void OnItemDropped(MudItemDropInfo<KitchenOrder> dropItem)
     {
-        new KitchenOrder { Id = "004", Time = "10:05", Items = "1x X-Bacon, 1x Suco", Table = "3" },
-        new KitchenOrder { Id = "005", Time = "10:08", Items = "2x Porção de Fritas", Table = "9" }
-    };
+        if (dropItem.Item == null)
+            return;
 
-    private List<KitchenOrder> _readyOrders = new()
-    {
-        new KitchenOrder { Id = "006", Time = "09:55", Items = "1x Misto Quente, 1x Café", Table = "2" }
-    };
-
-    private List<KitchenOrder> _finalizedOrders = new()
-    {
-        new KitchenOrder { Id = "007", Time = "09:45", Items = "2x Açaí, 1x Tapioca", Table = "8" }
-    };
-
-    private void MoveToPreparation(KitchenOrder order)
-    {
-        _confirmedOrders.Remove(order);
-        _preparingOrders.Add(order);
-    }
-
-    private void MoveToReady(KitchenOrder order)
-    {
-        _preparingOrders.Remove(order);
-        _readyOrders.Add(order);
-    }
-
-    private void MoveToFinalized(KitchenOrder order)
-    {
-        _readyOrders.Remove(order);
-        _finalizedOrders.Add(order);
+        dropItem.Item.Status = dropItem.DropzoneIdentifier;
+        StateHasChanged();
     }
 
     private class KitchenOrder
@@ -246,5 +159,6 @@
         public string Time { get; set; } = string.Empty;
         public string Items { get; set; } = string.Empty;
         public string Table { get; set; } = string.Empty;
+        public string Status { get; set; } = string.Empty;
     }
 }
