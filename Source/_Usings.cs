@@ -14,15 +14,20 @@ global using Vinder.Comanda.Merchants.WebUI.Contracts;
 global using Vinder.Comanda.Merchants.WebUI.Constants;
 global using Vinder.Comanda.Merchants.WebUI.Gateways;
 global using Vinder.Comanda.Merchants.WebUI.Authentication;
+
 global using Vinder.Comanda.Merchants.WebUI.Http.Clients;
+global using Vinder.Comanda.Merchants.WebUI.Http.Payloads.Identity;
 global using Vinder.Comanda.Merchants.WebUI.Http.Interceptors;
 
 global using Vinder.Comanda.Internal.Contracts.Clients;
 global using Vinder.Comanda.Internal.Contracts.Clients.Interfaces;
 
 global using Vinder.IdentityProvider.Sdk.Contracts.Clients;
+global using Vinder.IdentityProvider.Sdk.Contracts.Errors;
 global using Vinder.IdentityProvider.Sdk.Contracts.Payloads.Identity;
 global using Vinder.IdentityProvider.Sdk.Contracts.Payloads.User;
+global using Vinder.IdentityProvider.Sdk.Contracts.Payloads.Group;
+global using Vinder.IdentityProvider.Sdk.Contracts.Payloads.Permission;
 
 global using Vinder.Internal.Essentials.Patterns;
 global using MudBlazor.Services;
