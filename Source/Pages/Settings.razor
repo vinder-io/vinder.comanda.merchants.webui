@@ -21,102 +21,7 @@
         </div>
     </MudPaper>
 
-    <MudPaper Elevation="0" Class="pa-6 mb-4" Style="border-radius: 12px;">
-        <MudText Typo="Typo.h6" Style="font-weight: 700;" Class="mb-1">
-            Informações do Estabelecimento
-        </MudText>
-        <MudText Typo="Typo.body2" Style="opacity: 0.6;" Class="mb-4">
-            Configure o nome e descrição que aparecerão para seus clientes
-        </MudText>
-
-        <MudGrid Spacing="3">
-            <MudItem xs="12" md="6">
-                <MudTextField @bind-Value="_storeName" Label="Nome do Estabelecimento" Variant="Variant.Outlined"
-                    FullWidth="true" Margin="Margin.Dense" />
-            </MudItem>
-            <MudItem xs="12" md="6">
-                <MudTextField @bind-Value="_storeDescription" Label="Descrição" Variant="Variant.Outlined"
-                    FullWidth="true" Margin="Margin.Dense" HelperText="Breve descrição do seu negócio" />
-            </MudItem>
-        </MudGrid>
-    </MudPaper>
-
-    <MudPaper Elevation="0" Class="pa-6 mb-4" Style="border-radius: 12px;">
-        <MudText Typo="Typo.h6" Style="font-weight: 700;" Class="mb-1">
-            Identidade Visual
-        </MudText>
-        <MudText Typo="Typo.body2" Style="opacity: 0.6;" Class="mb-4">
-            Personalize as cores do seu estabelecimento
-        </MudText>
-
-        <MudGrid Spacing="3">
-            <MudItem xs="12" md="6">
-                <div class="d-flex flex-column">
-                    <MudTextField @bind-Value="_primaryColor" Label="Cor Primária" Variant="Variant.Outlined"
-                        FullWidth="true" Margin="Margin.Dense" Placeholder="#4a1998"
-                        HelperText="Clique no ícone para escolher a cor" Adornment="Adornment.End"
-                        AdornmentIcon="@Icons.Material.Filled.ColorLens"
-                        OnAdornmentClick="() => _showPrimaryColorPicker = !_showPrimaryColorPicker"
-                        AdornmentColor="Color.Primary" />
-
-                    @if (_showPrimaryColorPicker)
-                    {
-                        <MudColorPicker @bind-Text="_primaryColor" ColorPickerMode="ColorPickerMode.HEX" Class="mt-2"
-                            DisableAlpha="true" DisableToolbar="false" />
-                    }
-
-                    @if (!string.IsNullOrEmpty(_primaryColor))
-                    {
-                        <MudPaper Class="pa-3 mt-2 d-flex align-center"
-                            Style="@($"background: {_primaryColor}; border-radius: 8px; min-height: 50px;")">
-                            <MudText Typo="Typo.body2" Style="color: white; font-weight: 600;">
-                                Preview da Cor Primária
-                            </MudText>
-                        </MudPaper>
-                    }
-                </div>
-            </MudItem>
-
-            <MudItem xs="12" md="6">
-                <div class="d-flex flex-column">
-                    <MudTextField @bind-Value="_secondaryColor" Label="Cor Secundária" Variant="Variant.Outlined"
-                        FullWidth="true" Margin="Margin.Dense" Placeholder="#ec4899"
-                        HelperText="Clique no ícone para escolher a cor" Adornment="Adornment.End"
-                        AdornmentIcon="@Icons.Material.Filled.ColorLens"
-                        OnAdornmentClick="() => _showSecondaryColorPicker = !_showSecondaryColorPicker"
-                        AdornmentColor="Color.Secondary" />
-
-                    @if (_showSecondaryColorPicker)
-                    {
-                        <MudColorPicker @bind-Text="_secondaryColor" ColorPickerMode="ColorPickerMode.HEX" Class="mt-2"
-                            DisableAlpha="true" DisableToolbar="false" />
-                    }
-
-                    @if (!string.IsNullOrEmpty(_secondaryColor))
-                    {
-                        <MudPaper Class="pa-3 mt-2 d-flex align-center"
-                            Style="@($"background: {_secondaryColor}; border-radius: 8px; min-height: 50px;")">
-                            <MudText Typo="Typo.body2" Style="color: white; font-weight: 600;">
-                                Preview da Cor Secundária
-                            </MudText>
-                        </MudPaper>
-                    }
-                </div>
-            </MudItem>
-        </MudGrid>
-
-        <MudDivider Class="my-4" />
-
-        <div class="d-flex justify-end gap-2">
-            <MudButton Variant="Variant.Outlined" Color="Color.Default" Size="Size.Medium" Style="border-radius: 8px;">
-                Cancelar
-            </MudButton>
-            <MudButton Variant="Variant.Outlined" Color="Color.Inherit" Size="Size.Medium"
-                StartIcon="@Icons.Material.Outlined.Save" Style="border-radius: 8px;">
-                Salvar Alterações
-            </MudButton>
-        </div>
-    </MudPaper>
+    <EstablishmentUpdateForm />
 
     <MudPaper Elevation="0" Class="pa-6" Style="border-radius: 12px;">
         <MudText Typo="Typo.h6" Style="font-weight: 700;" Class="mb-1">
@@ -209,17 +114,6 @@
 </MudContainer>
 
 @code {
-    private string _storeName = "Hora do Lanche";
-    private string _storeDescription = "O melhor lanche do bairro!";
-    private string _primaryColor = "#5B21B6";
-    private string _secondaryColor = "#EC4899";
-    private bool _showPrimaryColorPicker = false;
-    private bool _showSecondaryColorPicker = false;
-
-    // User info (read-only)
-    private string _userId = "USR-2024-00123";
-    private string _userEmail = "contato@horadolanche.com.br";
-
     // Integration credentials
     private string _abacatePaySecretKey = "";
     private string _huggyAuthToken = "";
