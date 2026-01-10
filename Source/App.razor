@@ -1,4 +1,4 @@
-﻿@inject IOwnerClient ownerClient
+﻿@inject IProfilesClient profilesClient
 @inject IStoreClient storeClient
 @inject ISessionManager sessionManager
 @inject IIdentityClient identityClient
@@ -31,7 +31,7 @@
         if (principal?.Identity?.IsAuthenticated is true)
         {
             var identifier = principal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var owners = await ownerClient.GetOwnersAsync(new() { UserId = identifier! });
+            var owners = await profilesClient.GetOwnersAsync(new() { UserId = identifier! });
 
             var owner = owners?.Data?.Items.FirstOrDefault();
             if (owner is null)
