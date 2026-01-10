@@ -17,10 +17,17 @@ public static class ClientExtension
             client.Timeout = TimeSpan.FromMinutes(minutes: 1, seconds: 30);
         });
 
+        var ownerClient = services.AddHttpClient<IOwnerClient, OwnerClient>(client =>
+        {
+            client.BaseAddress = new Uri(address);
+            client.Timeout = TimeSpan.FromMinutes(minutes: 1, seconds: 30);
+        });
+
         // ensure an authentication interceptor is always registered for http clients
         // every http client must include a message handler responsible for authentication
 
         storeClient.AddHttpMessageHandler<AuthenticationInterceptor>();
         orderClient.AddHttpMessageHandler<AuthenticationInterceptor>();
+        ownerClient.AddHttpMessageHandler<AuthenticationInterceptor>();
     }
 }
