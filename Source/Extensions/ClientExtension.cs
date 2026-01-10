@@ -17,7 +17,7 @@ public static class ClientExtension
             client.Timeout = TimeSpan.FromMinutes(minutes: 1, seconds: 30);
         });
 
-        var ownerClient = services.AddHttpClient<IOwnerClient, OwnerClient>(client =>
+        var profilesClient = services.AddHttpClient<IProfilesClient, ProfilesClient>(client =>
         {
             client.BaseAddress = new Uri(address);
             client.Timeout = TimeSpan.FromMinutes(minutes: 1, seconds: 30);
@@ -28,6 +28,6 @@ public static class ClientExtension
 
         storeClient.AddHttpMessageHandler<AuthenticationInterceptor>();
         orderClient.AddHttpMessageHandler<AuthenticationInterceptor>();
-        ownerClient.AddHttpMessageHandler<AuthenticationInterceptor>();
+        profilesClient.AddHttpMessageHandler<AuthenticationInterceptor>();
     }
 }
