@@ -22,6 +22,8 @@ global using Vinder.Comanda.Merchants.WebUI.Http.Interceptors;
 
 global using Vinder.Comanda.Internal.Contracts.Clients;
 global using Vinder.Comanda.Internal.Contracts.Clients.Interfaces;
+global using Vinder.Comanda.Internal.Contracts.Transport.Internal.Stores;
+global using Vinder.Comanda.Internal.Contracts.Transport.Internal.Profiles;
 
 global using Vinder.IdentityProvider.Sdk.Contracts.Clients;
 global using Vinder.IdentityProvider.Sdk.Contracts.Errors;
