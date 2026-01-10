@@ -99,8 +99,9 @@
                 Disabled="@_isSubmitting" Style="border-radius: 8px;">
                 Cancelar
             </MudButton>
-            <MudButton Variant="Variant.Outlined" Color="Color.Inherit" Size="Size.Medium" ButtonType="ButtonType.Submit"
-                Disabled="@_isSubmitting" StartIcon="@Icons.Material.Outlined.Save" Style="border-radius: 8px;">
+            <MudButton Variant="Variant.Outlined" Color="Color.Inherit" Size="Size.Medium"
+                ButtonType="ButtonType.Submit" Disabled="@_isSubmitting" StartIcon="@Icons.Material.Outlined.Save"
+                Style="border-radius: 8px;">
                 @if (_isSubmitting)
                 {
                     <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
@@ -150,18 +151,27 @@
 
         _isSubmitting = true;
 
+        var primaryColor = _establishment.PrimaryColor?.Length == 9
+            ? _establishment.PrimaryColor.Substring(0, 7)
+            : _establishment.PrimaryColor;
+
+        var secondaryColor = _establishment.SecondaryColor?.Length == 9
+            ? _establishment.SecondaryColor.Substring(0, 7)
+            : _establishment.SecondaryColor;
+
         var modificationScheme = new EstablishmentModificationScheme
         {
             EstablishmentId = _currentEstablishment.Identifier,
             Title = _establishment.Title,
             Description = _establishment.Description,
-            Branding = new Branding(_establishment.PrimaryColor, _establishment.SecondaryColor, string.Empty)
+            Branding = new Branding(primaryColor ?? "#5B21B6", secondaryColor ?? "#EC4899", "https://placehold.co/600x400.png")
         };
 
         var result = await storeClient.UpdateEstablishmentAsync(modificationScheme);
         if (result.IsFailure || result.Data is null)
         {
             snackbar.Add($"Erro ao atualizar estabelecimento: {result.Error.Code}", Severity.Error);
+            _isSubmitting = false;
             return;
         }
 
