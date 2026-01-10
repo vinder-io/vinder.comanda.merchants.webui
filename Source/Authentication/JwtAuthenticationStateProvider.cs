@@ -21,7 +21,7 @@ public sealed class JwtAuthenticationStateProvider(ILocalStorageGateway localSto
             return new AuthenticationState(anonymous);
         }
 
-        var identity = new ClaimsIdentity(token.Claims, AuthenticationDefaults.Type, nameType: ClaimTypes.Name, roleType: ClaimTypes.Role);
+        var identity = new ClaimsIdentity(token.Claims, "https://www.rfc-editor.org/rfc/rfc7519", nameType: "preferred_username", roleType: "role");
         var principal = new ClaimsPrincipal(identity);
 
         return new AuthenticationState(principal);
