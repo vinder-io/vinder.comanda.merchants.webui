@@ -9,7 +9,7 @@ public sealed class JwtAuthenticationStateProvider(ILocalStorageGateway localSto
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
-        var tokenString = await localStorage.GetAsync<string>(Storage.SecurityToken);
+        var tokenString = await localStorage.GetAsStringAsync(Storage.SecurityToken);
         if (string.IsNullOrWhiteSpace(tokenString))
         {
             return new AuthenticationState(anonymous);
@@ -21,7 +21,7 @@ public sealed class JwtAuthenticationStateProvider(ILocalStorageGateway localSto
             return new AuthenticationState(anonymous);
         }
 
-        var identity = new ClaimsIdentity(token.Claims, AuthenticationDefaults.Type);
+        var identity = new ClaimsIdentity(token.Claims, AuthenticationDefaults.Type, nameType: ClaimTypes.Name, roleType: ClaimTypes.Role);
         var principal = new ClaimsPrincipal(identity);
 
         return new AuthenticationState(principal);
