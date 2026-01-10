@@ -1,5 +1,6 @@
 global using System.Text.Json;
 global using System.Net.Http.Json;
+global using System.ComponentModel.DataAnnotations;
 
 global using System.Security.Claims;
 global using System.IdentityModel.Tokens.Jwt;
