@@ -1,0 +1,93 @@
+@page "/produtos"
+
+<PageTitle>Produtos</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-4">
+    <MudPaper Elevation="0" Class="pa-6 mb-6" Style="border-radius: 12px; border-left: 4px solid var(--mud-palette-primary);">
+        <div class="d-flex align-center justify-space-between">
+            <div class="d-flex align-center">
+                <MudAvatar Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" 
+                          Style="background: rgba(var(--mud-palette-primary-rgb), 0.1);">
+                    <MudIcon Icon="@Icons.Material.Outlined.Inventory2" Color="Color.Primary" Size="Size.Medium" />
+                </MudAvatar>
+                <div class="ml-4">
+                    <MudText Typo="Typo.h4" Style="font-weight: 700;">
+                        Produtos
+                    </MudText>
+                    <MudText Typo="Typo.body1" Style="opacity: 0.7; margin-top: 4px;">
+                        Gerencie o cardápio do seu estabelecimento
+                    </MudText>
+                </div>
+            </div>
+            <div class="d-flex gap-2 align-center">
+                <MudIconButton Icon="@Icons.Material.Outlined.Refresh" 
+                              Color="Color.Inherit" 
+                              Variant="Variant.Text"
+                              Size="Size.Medium"
+                              Style="border-radius: 8px; opacity: 0.7; transition: all 0.2s ease;"
+                              Class="hover-icon-button" />
+                <MudButton Variant="Variant.Filled" 
+                          Color="Color.Primary" 
+                          StartIcon="@Icons.Material.Outlined.Add"
+                          Style="border-radius: 8px;"
+                          OnClick="@HandleAddProduct">
+                    Adicionar Produto
+                </MudButton>
+            </div>
+        </div>
+    </MudPaper>
+
+    <ProductGallery Products="@_products" 
+                    OnEdit="@HandleEditProduct" 
+                    OnDelete="@HandleDeleteProduct" />
+</MudContainer>
+
+@code {
+    private List<ProductGallery.ProductModel> _products = new()
+    {
+        new ProductGallery.ProductModel 
+        { 
+            Id = "1", 
+            Name = "Hambúrguer", 
+            Description = "Pão, Carne, Queijo, Presunto, Alface, Tomate, Batata, Molho Especial, Ketchup, Maionese E Mostarda",
+            Price = 9.00m,
+            ImageUrl = "https://placehold.co/120x120"
+        },
+        new ProductGallery.ProductModel 
+        { 
+            Id = "2", 
+            Name = "X-Egg", 
+            Description = "Pão, Carne, Ovo, Queijo, Presunto, Alface, Tomate, Batata, Molho Especial, Ketchup, Maionese E Mostarda",
+            Price = 11.00m,
+            ImageUrl = "https://placehold.co/120x120"
+        },
+        new ProductGallery.ProductModel 
+        { 
+            Id = "3", 
+            Name = "X-Cheddar", 
+            Description = "Pão, 2 Carnes, 2 Cheddars, Alface, Tomate, Batata, Molho Especial, Ketchup, Maionese E Mostarda",
+            Price = 13.00m,
+            ImageUrl = "https://placehold.co/120x120"
+        },
+        new ProductGallery.ProductModel 
+        { 
+            Id = "4", 
+            Name = "X-Bacon", 
+            Description = "Pão, Carne, Ovo, Bacon, Queijo, Presunto, Alface, Tomate, Batata, Molho Especial, Ketchup, Maionese E Mostarda",
+            Price = 15.00m,
+            ImageUrl = "https://placehold.co/120x120"
+        }
+    };
+
+    private void HandleAddProduct()
+    {
+    }
+
+    private void HandleEditProduct(string productId)
+    {
+    }
+
+    private void HandleDeleteProduct(string productId)
+    {
+    }
+}

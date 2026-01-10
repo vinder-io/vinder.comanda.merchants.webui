@@ -1,0 +1,61 @@
+<MudPaper Elevation="0" Class="pa-4 mb-3" Style="border-radius: 12px; border: 1px solid rgba(0,0,0,0.08); background: white;">
+    <div class="d-flex gap-4">
+        <div style="flex-shrink: 0;">
+            <MudImage Src="@ImageUrl" Alt="@Name" Width="120" Height="120" 
+                     Style="border-radius: 8px; object-fit: cover;" />
+        </div>
+        
+        <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+                <div class="d-flex justify-space-between align-center mb-2">
+                    <MudText Typo="Typo.h6" Style="font-weight: 700;">
+                        @Name
+                    </MudText>
+                    <MudChip T="string" Color="Color.Primary" Size="Size.Medium" Style="font-weight: 700;">
+                        @Price.ToString("C2")
+                    </MudChip>
+                </div>
+                
+                <MudText Typo="Typo.body2" Style="opacity: 0.7; line-height: 1.5;">
+                    @Description
+                </MudText>
+            </div>
+            
+            <div class="d-flex gap-2 mt-3">
+                <MudIconButton Icon="@Icons.Material.Outlined.Edit" 
+                              Color="Color.Inherit" 
+                              Size="Size.Small"
+                              Style="border-radius: 8px; opacity: 0.7;"
+                              OnClick="@(() => OnEdit.InvokeAsync(ProductId))" />
+                <MudIconButton Icon="@Icons.Material.Outlined.Delete" 
+                              Color="Color.Error" 
+                              Size="Size.Small"
+                              Style="border-radius: 8px; opacity: 0.7;"
+                              OnClick="@(() => OnDelete.InvokeAsync(ProductId))" />
+            </div>
+        </div>
+    </div>
+</MudPaper>
+
+@code {
+    [Parameter]
+    public string ProductId { get; set; } = string.Empty;
+
+    [Parameter]
+    public string Name { get; set; } = string.Empty;
+
+    [Parameter]
+    public string Description { get; set; } = string.Empty;
+
+    [Parameter]
+    public decimal Price { get; set; }
+
+    [Parameter]
+    public string ImageUrl { get; set; } = string.Empty;
+
+    [Parameter]
+    public EventCallback<string> OnEdit { get; set; }
+
+    [Parameter]
+    public EventCallback<string> OnDelete { get; set; }
+}
