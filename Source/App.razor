@@ -23,16 +23,10 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        await InitializeSessionAsync();
+        await InitializeMockSessionAsync();
 
         var session = await authenticationStateProvider.GetAuthenticationStateAsync();
         var principal = session.User;
-
-        Console.WriteLine("[ user.identity ]:");
-        Console.WriteLine(JsonSerializer.Serialize(session.User.Identity, new JsonSerializerOptions { WriteIndented = true }));
-
-        Console.WriteLine("[ user.claims ]:");
-        Console.WriteLine(JsonSerializer.Serialize(principal.Claims.ToDictionary(claim => claim.Type, claim => claim.Value), new JsonSerializerOptions { WriteIndented = true }));
 
         if (principal?.Identity?.IsAuthenticated is true)
         {
@@ -57,7 +51,7 @@
         }
 
     }
-    private async Task InitializeSessionAsync()
+    private async Task InitializeMockSessionAsync()
     {
         var authentication = await identityClient.AuthenticateAsync(new()
         {
