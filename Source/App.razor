@@ -75,6 +75,6 @@
         if (authentication.IsFailure || authentication.Data is null)
             return;
 
-        await sessionManager.SignInAsync(authentication.Data.AccessToken);
+        await sessionManager.SignInAsync(authentication.Data.AccessToken, authentication.Data.RefreshToken);
     }
 }
