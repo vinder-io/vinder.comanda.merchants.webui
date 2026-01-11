@@ -1,54 +1,46 @@
-<MudPaper Elevation="0" Class="product-card pa-0 mb-4"
+<MudPaper Elevation="0" Class="pa-0 mb-4"
     Style="border-radius: 16px; border: 1px solid rgba(0,0,0,0.06); background: white; overflow: hidden; transition: all 0.3s ease;">
-    <div class="d-flex gap-0">
-        <div style="flex-shrink: 0; position: relative; width: 160px; height: 160px; overflow: hidden;">
-            <MudImage Src="@ImageUrl" Alt="@Name"
-                Style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;"
-                Class="product-image" />
+    <div class="d-flex" style="height: 100%;">
+        <div style="flex-shrink: 0; width: 160px; height: 180px; overflow: hidden;">
+            <MudImage Src="@ImageUrl" Alt="@Name" ObjectFit="ObjectFit.Cover" Height="180" Width="160" />
         </div>
 
-        <div style="flex: 1; display: flex; flex-direction: column; padding: 20px 24px;">
-            <div class="d-flex justify-space-between align-start mb-3">
-                <div style="flex: 1; padding-right: 16px;">
-                    <MudText Typo="Typo.h6"
-                        Style="font-weight: 700; margin-bottom: 4px; color: #1a1a1a; font-size: 1.25rem;">
+        <div class="d-flex flex-column flex-grow-1 pa-4">
+            <div class="d-flex justify-space-between align-start mb-2">
+                <div class="flex-grow-1 pr-3">
+                    <MudText Typo="Typo.h6" Style="font-weight: 700; color: #1a1a1a;">
                         @Name
                     </MudText>
-                    <MudText Typo="Typo.body2" Style="color: #666; line-height: 1.6; margin-top: 8px;">
-                        @Description
-                    </MudText>
                 </div>
-
-                <div class="d-flex flex-column align-end" style="min-width: fit-content;">
-                    <MudText Typo="Typo.caption" Style="color: #999; font-size: 0.75rem; margin-bottom: 4px;">
+                <div class="d-flex flex-column align-end">
+                    <MudText Typo="Typo.caption" Style="color: #999; font-size: 0.75rem;">
                         Preço
                     </MudText>
-                    <MudText Typo="Typo.h5" Color="Color.Inherit" Style="font-weight: 800; margin-bottom: 0;">
+                    <MudText Typo="Typo.h5" Color="Color.Inherit" Style="font-weight: 800;">
                         @Price.ToString("C2")
                     </MudText>
                 </div>
             </div>
 
-            <MudDivider Style="margin: 12px 0;" />
+            <MudText Typo="Typo.body2" Class="mb-3" Style="color: #666; line-height: 1.6;">
+                @Description
+            </MudText>
 
-            <div class="d-flex justify-space-between align-center">
-                <div class="d-flex gap-2">
-                    <MudChip T="string" Size="Size.Small" Variant="Variant.Outlined"
-                        Style="border-color: rgba(0,0,0,0.12); color: #666;">
-                        Identificador: @ProductId.Substring(0, Math.Min(8, ProductId.Length))
-                    </MudChip>
-                </div>
+            <MudSpacer />
+
+            <div class="d-flex justify-space-between align-center pt-2" style="border-top: 1px solid rgba(0,0,0,0.08);">
+                <MudChip T="string" Size="Size.Small" Variant="Variant.Outlined" Color="Color.Default">
+                    @ProductId
+                </MudChip>
 
                 <div class="d-flex gap-1">
                     <MudButton StartIcon="@Icons.Material.Filled.Edit" Color="Color.Primary" Variant="Variant.Text"
-                        Size="Size.Small"
-                        Style="border-radius: 8px; text-transform: none; font-weight: 600; padding: 6px 16px;"
+                        Size="Size.Small" Style="text-transform: none;"
                         OnClick="@(() => OnEdit.InvokeAsync(ProductId))">
                         Editar
                     </MudButton>
                     <MudButton StartIcon="@Icons.Material.Filled.Delete" Color="Color.Error" Variant="Variant.Text"
-                        Size="Size.Small"
-                        Style="border-radius: 8px; text-transform: none; font-weight: 600; padding: 6px 16px;"
+                        Size="Size.Small" Style="text-transform: none;"
                         OnClick="@(() => OnDelete.InvokeAsync(ProductId))">
                         Excluir
                     </MudButton>

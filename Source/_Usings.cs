@@ -33,4 +33,5 @@ global using Vinder.IdentityProvider.Sdk.Contracts.Payloads.Group;
 global using Vinder.IdentityProvider.Sdk.Contracts.Payloads.Permission;
 
 global using Vinder.Internal.Essentials.Patterns;
+global using Vinder.Internal.Essentials.Filtering;
 global using MudBlazor.Services;

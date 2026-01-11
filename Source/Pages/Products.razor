@@ -1,13 +1,19 @@
 @page "/produtos"
 
+@inject IStoreClient storeClient
+@inject ILocalStorageGateway localStorage
+@inject IDialogService dialogService
+@inject ISnackbar snackbar
+
 <PageTitle>Produtos</PageTitle>
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-4">
-    <MudPaper Elevation="0" Class="pa-6 mb-6" Style="border-radius: 12px; border-left: 4px solid var(--mud-palette-primary);">
+    <MudPaper Elevation="0" Class="pa-6 mb-6"
+        Style="border-radius: 12px; border-left: 4px solid var(--mud-palette-primary);">
         <div class="d-flex align-center justify-space-between">
             <div class="d-flex align-center">
-                <MudAvatar Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" 
-                          Style="background: rgba(var(--mud-palette-primary-rgb), 0.1);">
+                <MudAvatar Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large"
+                    Style="background: rgba(var(--mud-palette-primary-rgb), 0.1);">
                     <MudIcon Icon="@Icons.Material.Outlined.Inventory2" Color="Color.Primary" Size="Size.Medium" />
                 </MudAvatar>
                 <div class="ml-4">
@@ -20,74 +26,137 @@
                 </div>
             </div>
             <div class="d-flex gap-2 align-center">
-                <MudIconButton Icon="@Icons.Material.Outlined.Refresh" 
-                              Color="Color.Inherit" 
-                              Variant="Variant.Text"
-                              Size="Size.Medium"
-                              Style="border-radius: 8px; opacity: 0.7; transition: all 0.2s ease;"
-                              Class="hover-icon-button" />
-                <MudButton Variant="Variant.Filled" 
-                          Color="Color.Primary" 
-                          StartIcon="@Icons.Material.Outlined.Add"
-                          Style="border-radius: 8px;"
-                          OnClick="@HandleAddProduct">
+                <MudIconButton Icon="@Icons.Material.Outlined.Refresh" Color="Color.Inherit" Variant="Variant.Text"
+                    Size="Size.Medium" Style="border-radius: 8px; opacity: 0.7; transition: all 0.2s ease;"
+                    Class="hover-icon-button" OnClick="@LoadProductsAsync" />
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Outlined.Add"
+                    Style="border-radius: 8px;" OnClick="@HandleAddProduct">
                     Adicionar Produto
                 </MudButton>
             </div>
         </div>
     </MudPaper>
 
-    <ProductGallery Products="@_products" 
-                    OnEdit="@HandleEditProduct" 
-                    OnDelete="@HandleDeleteProduct" />
+    @if (_isLoading)
+    {
+        <div class="d-flex justify-center align-center pa-8">
+            <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
+        </div>
+    }
+    else
+    {
+        <PaginatedView TItem="ProductScheme" Data="@_paginatedProducts" OnPageChanged="@HandlePageChanged">
+            <Content>
+                <div class="product-gallery">
+                    @foreach (var product in context)
+                    {
+                        <ProductCard ProductId="@product.Identifier" Name="@product.Title" Description="@product.Description"
+                            Price="@product.Price" ImageUrl="@product.Image" OnEdit="@HandleEditProduct"
+                            OnDelete="@HandleDeleteProduct" />
+                    }
+                </div>
+            </Content>
+            <EmptyContent>
+                <MudPaper Elevation="0" Class="pa-8" Style="border-radius: 12px; text-align: center;">
+                    <MudIcon Icon="@Icons.Material.Outlined.Inventory2" Color="Color.Default" Size="Size.Large"
+                        Style="opacity: 0.3; font-size: 4rem;" />
+                    <MudText Typo="Typo.h6" Style="opacity: 0.6; margin-top: 1rem;">
+                        Nenhum produto cadastrado
+                    </MudText>
+                    <MudText Typo="Typo.body2" Style="opacity: 0.5; margin-top: 0.5rem;">
+                        Adicione produtos para começar a vender
+                    </MudText>
+                </MudPaper>
+            </EmptyContent>
+        </PaginatedView>
+    }
 </MudContainer>
 
 @code {
-    private List<ProductGallery.ProductModel> _products = new()
-    {
-        new ProductGallery.ProductModel 
-        { 
-            Id = "1", 
-            Name = "Hambúrguer", 
-            Description = "Pão, Carne, Queijo, Presunto, Alface, Tomate, Batata, Molho Especial, Ketchup, Maionese E Mostarda",
-            Price = 9.00m,
-            ImageUrl = "https://placehold.co/120x120"
-        },
-        new ProductGallery.ProductModel 
-        { 
-            Id = "2", 
-            Name = "X-Egg", 
-            Description = "Pão, Carne, Ovo, Queijo, Presunto, Alface, Tomate, Batata, Molho Especial, Ketchup, Maionese E Mostarda",
-            Price = 11.00m,
-            ImageUrl = "https://placehold.co/120x120"
-        },
-        new ProductGallery.ProductModel 
-        { 
-            Id = "3", 
-            Name = "X-Cheddar", 
-            Description = "Pão, 2 Carnes, 2 Cheddars, Alface, Tomate, Batata, Molho Especial, Ketchup, Maionese E Mostarda",
-            Price = 13.00m,
-            ImageUrl = "https://placehold.co/120x120"
-        },
-        new ProductGallery.ProductModel 
-        { 
-            Id = "4", 
-            Name = "X-Bacon", 
-            Description = "Pão, Carne, Ovo, Bacon, Queijo, Presunto, Alface, Tomate, Batata, Molho Especial, Ketchup, Maionese E Mostarda",
-            Price = 15.00m,
-            ImageUrl = "https://placehold.co/120x120"
-        }
-    };
+    private PaginationScheme<ProductScheme>? _paginatedProducts;
+    private bool _isLoading = true;
+    private int _currentPage = 0;
+    private const int PageSize = 20;
 
-    private void HandleAddProduct()
+    protected override async Task OnInitializedAsync()
     {
+        await LoadProductsAsync();
+    }
+
+    private async Task LoadProductsAsync()
+    {
+        _isLoading = true;
+        StateHasChanged();
+
+        var establishment = await localStorage.GetAsync<EstablishmentScheme>(Storage.Establishment);
+        if (establishment is null)
+        {
+            snackbar.Add("Erro ao identificar o estabelecimento", Severity.Error);
+            return;
+        }
+
+        var parameters = new ProductsFetchParameters
+        {
+            EstablishmentId = establishment.Identifier,
+            Pagination = PaginationFilters.From(_currentPage + 1, PageSize)
+        };
+
+        var result = await storeClient.GetProductsAsync(parameters);
+        if (result.IsSuccess && result.Data is not null)
+        {
+            _paginatedProducts = result.Data;
+        }
+        else
+        {
+            snackbar.Add($"Erro ao carregar produtos ({result.Error.Code})", Severity.Error);
+        }
+
+        _isLoading = false;
+        StateHasChanged();
+    }
+
+    private async Task HandlePageChanged(int pageNumber)
+    {
+        _currentPage = pageNumber;
+        await LoadProductsAsync();
+    }
+
+    private async Task HandleAddProduct()
+    {
+        var options = new DialogOptions
+        {
+            CloseButton = true,
+            CloseOnEscapeKey = true,
+            MaxWidth = MaxWidth.Small,
+            FullWidth = true,
+            Position = DialogPosition.Center
+        };
+
+        var dialog = await dialogService.ShowAsync<ProductCreationDialog>("", options);
+        var result = await dialog.Result;
+
+        if (result is not null && !result.Canceled)
+        {
+            await LoadProductsAsync();
+        }
     }
 
     private void HandleEditProduct(string productId)
     {
+        snackbar.Add("Funcionalidade de edição em desenvolvimento", Severity.Info);
     }
 
-    private void HandleDeleteProduct(string productId)
+    private async Task HandleDeleteProduct(string productId)
     {
+        var confirm = await dialogService.ShowMessageBox(
+        "Confirmar exclusão",
+        "Tem certeza que deseja excluir este produto?",
+        yesText: "Excluir",
+        cancelText: "Cancelar");
+
+        if (confirm == true)
+        {
+            snackbar.Add("Funcionalidade de exclusão em desenvolvimento", Severity.Info);
+        }
     }
 }
