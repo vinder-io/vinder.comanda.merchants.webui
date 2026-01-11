@@ -2,6 +2,6 @@
 
 public interface ISessionManager
 {
-    Task SignInAsync(string token);
+    Task SignInAsync(string token, string refreshToken);
     Task SignOutAsync();
 }

@@ -2,9 +2,10 @@
 
 public sealed class SessionManager(ILocalStorageGateway localStorage, IIdentityClient identityClient, AuthenticationStateProvider provider) : ISessionManager
 {
-    public async Task SignInAsync(string token)
+    public async Task SignInAsync(string token, string refreshToken)
     {
         await localStorage.SetAsStringAsync(Storage.SecurityToken, token);
+        await localStorage.SetAsStringAsync(Storage.RefreshToken, refreshToken);
 
         // inform provider of signin because blazor does not automatically detect localstorage updates
         if (provider is JwtAuthenticationStateProvider authenticationState)
