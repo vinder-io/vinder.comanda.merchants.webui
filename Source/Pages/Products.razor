@@ -4,6 +4,7 @@
 @inject ILocalStorageGateway localStorage
 @inject IDialogService dialogService
 @inject ISnackbar snackbar
+@inject IConfiguration configuration
 
 <PageTitle>Produtos</PageTitle>
 
@@ -66,7 +67,7 @@
             @foreach (var product in _paginatedProducts.Items)
             {
                 <ProductCard ProductId="@product.Identifier" Name="@product.Title" Description="@product.Description"
-                    Price="@product.Price" ImageUrl="@product.Image" OnEdit="@HandleEditProduct"
+                    Price="@product.Price" ImageUrl="@GetFullImageUrl(product.Image)" OnEdit="@HandleEditProduct"
                     OnDelete="@HandleDeleteProduct" />
             }
         </div>
@@ -188,5 +189,20 @@
         {
             snackbar.Add("Funcionalidade de exclusão em desenvolvimento", Severity.Info);
         }
+    }
+
+    private string GetFullImageUrl(string imageUrl)
+    {
+        if (string.IsNullOrEmpty(imageUrl))
+            return string.Empty;
+
+        var blobUrl = configuration["Settings:Blob"];
+        if (string.IsNullOrEmpty(blobUrl))
+            return imageUrl;
+
+        blobUrl = blobUrl.TrimEnd('/');
+        imageUrl = imageUrl.TrimStart('/');
+
+        return $"{blobUrl}/{imageUrl}";
     }
 }
