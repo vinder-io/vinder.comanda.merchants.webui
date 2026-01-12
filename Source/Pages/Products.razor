@@ -38,11 +38,7 @@
         </div>
     </MudPaper>
 
-    <ProductSearch 
-        Title="@_searchTitle"
-        MinPrice="@_minPrice"
-        MaxPrice="@_maxPrice"
-        OnSearch="@HandleSearchAsync" />
+    <ProductSearch Filters="@_currentFilters" OnFiltersChanged="@HandleFiltersChanged" />
 
     @if (_isLoading)
     {
@@ -79,13 +75,8 @@
         </div>
 
         <div class="d-flex justify-center align-center mt-6">
-            <MudPagination 
-                Count="@_paginatedProducts.TotalPages" 
-                Selected="@_paginatedProducts.PageNumber"
-                SelectedChanged="@HandlePageChanged"
-                Color="Color.Primary" 
-                Size="Size.Large" 
-                ShowFirstButton="true" 
+            <MudPagination Count="@_paginatedProducts.TotalPages" Selected="@_paginatedProducts.PageNumber"
+                SelectedChanged="@HandlePageChanged" Color="Color.Primary" Size="Size.Large" ShowFirstButton="true"
                 ShowLastButton="true" />
         </div>
 
@@ -102,11 +93,7 @@
     private bool _isLoading = true;
     private int _currentPage = 0;
     private const int PageSize = 20;
-    
-    // Filtros de busca
-    private string? _searchTitle;
-    private decimal? _minPrice;
-    private decimal? _maxPrice;
+    private ProductsFetchParameters _currentFilters = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -125,12 +112,9 @@
             return;
         }
 
-        var parameters = new ProductsFetchParameters
+        var parameters = _currentFilters with
         {
             EstablishmentId = establishment.Identifier,
-            Title = _searchTitle,
-            MinPrice = _minPrice,
-            MaxPrice = _maxPrice,
             Pagination = PaginationFilters.From(_currentPage + 1, PageSize)
         };
 
@@ -148,12 +132,11 @@
         StateHasChanged();
     }
 
-    private async Task HandleSearchAsync(ProductSearch.SearchFilters filters)
+    private async Task HandleFiltersChanged(ProductsFetchParameters filters)
     {
-        _searchTitle = filters.Title;
-        _minPrice = filters.MinPrice;
-        _maxPrice = filters.MaxPrice;
-        _currentPage = 0; // Reset para primeira página ao fazer busca
+        _currentFilters = filters;
+        _currentPage = 0;
+
         await LoadProductsAsync();
     }
 
