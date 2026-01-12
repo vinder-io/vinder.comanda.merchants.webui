@@ -38,6 +38,12 @@
         </div>
     </MudPaper>
 
+    <ProductSearch 
+        Title="@_searchTitle"
+        MinPrice="@_minPrice"
+        MaxPrice="@_maxPrice"
+        OnSearch="@HandleSearchAsync" />
+
     @if (_isLoading)
     {
         <div class="d-flex justify-center align-center pa-8">
@@ -96,6 +102,11 @@
     private bool _isLoading = true;
     private int _currentPage = 0;
     private const int PageSize = 20;
+    
+    // Filtros de busca
+    private string? _searchTitle;
+    private decimal? _minPrice;
+    private decimal? _maxPrice;
 
     protected override async Task OnInitializedAsync()
     {
@@ -117,6 +128,9 @@
         var parameters = new ProductsFetchParameters
         {
             EstablishmentId = establishment.Identifier,
+            Title = _searchTitle,
+            MinPrice = _minPrice,
+            MaxPrice = _maxPrice,
             Pagination = PaginationFilters.From(_currentPage + 1, PageSize)
         };
 
@@ -134,9 +148,18 @@
         StateHasChanged();
     }
 
+    private async Task HandleSearchAsync(ProductSearch.SearchFilters filters)
+    {
+        _searchTitle = filters.Title;
+        _minPrice = filters.MinPrice;
+        _maxPrice = filters.MaxPrice;
+        _currentPage = 0; // Reset para primeira página ao fazer busca
+        await LoadProductsAsync();
+    }
+
     private async Task HandlePageChanged(int pageNumber)
     {
-        _currentPage = pageNumber - 1; // MudPagination usa 1-based, convertemos para 0-based
+        _currentPage = pageNumber - 1;
         await LoadProductsAsync();
     }
 
