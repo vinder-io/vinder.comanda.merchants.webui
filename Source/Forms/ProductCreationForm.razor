@@ -6,14 +6,7 @@
     <DataAnnotationsValidator />
 
     <MudStack Spacing="3">
-        <MudText Typo="Typo.h6" Style="font-weight: 700;">
-            Insira os dados do produto
-        </MudText>
-        <MudText Typo="Typo.body2" Style="opacity: 0.6;" Class="mb-2">
-            Preencha as informações do novo produto
-        </MudText>
-
-        <MudTextField @bind-Value="_model.Title" Label="Título" Variant="Variant.Outlined" FullWidth="true"
+        <MudTextField @bind-Value="_model.Title" Label="Título" Variant="Variant.Outlined" Class="mt-4" FullWidth="true"
             Margin="Margin.Dense" Required="true" For="@(() => _model.Title)"
             HelperText="Nome do produto que aparecerá no cardápio" />
 
