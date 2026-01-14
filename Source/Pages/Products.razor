@@ -219,9 +219,25 @@
         yesText: "Excluir",
         cancelText: "Cancelar");
 
+        var establishment = await localStorage.GetAsync<EstablishmentScheme>(Storage.Establishment);
+        if (establishment is null)
+        {
+            snackbar.Add("Erro ao identificar o estabelecimento", Severity.Error);
+            return;
+        }
+
         if (confirm == true)
         {
-            snackbar.Add("Funcionalidade de exclusão em desenvolvimento", Severity.Info);
+            var result = await storeClient.DeleteProductAsync(new() { EstablishmentId = establishment.Identifier, ProductId = productId });
+            if (result.IsSuccess)
+            {
+                snackbar.Add("Produto excluído com sucesso!", Severity.Success);
+
+                await LoadProductsAsync();
+                return;
+            }
+
+            snackbar.Add($"Erro ao excluir produto ({result.Error.Code})", Severity.Error);
         }
     }
 
