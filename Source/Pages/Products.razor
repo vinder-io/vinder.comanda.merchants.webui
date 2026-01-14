@@ -178,9 +178,37 @@
         }
     }
 
-    private void HandleEditProduct(string productId)
+    private async Task HandleEditProduct(string productId)
     {
-        snackbar.Add("Funcionalidade de edição em desenvolvimento", Severity.Info);
+        var product = _paginatedProducts?.Items?.FirstOrDefault(product => product.Identifier == productId);
+        if (product is null)
+        {
+            snackbar.Add("Produto não encontrado", Severity.Error);
+            return;
+        }
+
+        var parameters = new DialogParameters
+        {
+            { "ProductId", productId },
+            { "Product", product }
+        };
+
+        var options = new DialogOptions
+        {
+            CloseButton = true,
+            CloseOnEscapeKey = true,
+            MaxWidth = MaxWidth.Small,
+            FullWidth = true,
+            Position = DialogPosition.Center
+        };
+
+        var dialog = await dialogService.ShowAsync<ProductUpdateDialog>("", parameters, options);
+        var result = await dialog.Result;
+
+        if (result is not null && !result.Canceled)
+        {
+            await LoadProductsAsync();
+        }
     }
 
     private async Task HandleDeleteProduct(string productId)
