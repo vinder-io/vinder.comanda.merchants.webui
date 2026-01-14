@@ -90,8 +90,7 @@
             ProductId = ProductId,
             Title = _model.Title,
             Description = _model.Description,
-            Price = _model.Price,
-            Image = Product?.Image ?? string.Empty
+            Price = _model.Price
         };
 
         var result = await storeClient.UpdateProductAsync(modificationScheme);
